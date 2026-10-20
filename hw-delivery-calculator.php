@@ -3,7 +3,7 @@
  * Plugin Name:       HW Delivery Calculator
  * Plugin URI:        https://github.com/Waldoweb/hw-delivery-calculator
  * Description:       Delivery cost estimate for product pages. The visitor picks their street address (Google Places autocomplete) and sees the driving distance from the kennel and an estimated price. Information only: no cart, checkout or order changes, and nothing is sent to or saved on the site.
- * Version:           1.0.1
+ * Version:           1.1.0
  * Author:            Hostetler Web
  * Author URI:        https://hostetlerweb.com
  * Update URI:        https://github.com/Waldoweb/hw-delivery-calculator
@@ -41,7 +41,7 @@ if ( is_readable( __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker
 
 class HW_Delivery_Calculator {
 
-	const VERSION = '1.0.1';
+	const VERSION = '1.1.0';
 	const OPTION  = 'hw_delivery_settings';
 	const HANDLE  = 'hw-delivery-calculator';
 	const PAGE    = 'hw-delivery-calculator';
@@ -87,7 +87,177 @@ class HW_Delivery_Calculator {
 			'result'         => __( 'About {miles} driving miles from our kennel in {kennel}. Estimated delivery: {price} ({rate}/mile one-way)', 'hw-delivery-calculator' ),
 			'note'           => __( 'This is an estimate. We will confirm the delivery price with you before your puppy travels.', 'hw-delivery-calculator' ),
 			'over_limit'     => __( 'That address is about {miles} driving miles away, farther than our usual {max}-mile delivery area. Please contact us and we will work out the options with you.', 'hw-delivery-calculator' ),
+		) + array_fill_keys( array_keys( self::style_fields() ), '' );
+	}
+
+	/**
+	 * Styles section. Each field sets a --hwdc-* variable on .hwdc. Fields with a
+	 * target also apply it there, but only when set, so the theme's own heading
+	 * and body styles stay in charge until someone fills them in.
+	 */
+	public static function style_fields() {
+		return array(
+			'font_family'    => array(
+				'group'   => 'font',
+				'label'   => __( 'Font', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-font',
+				'target'  => '.hwdc',
+				'prop'    => 'font-family',
+				'default' => __( 'Theme font', 'hw-delivery-calculator' ),
+				'help'    => __( 'The whole calculator, including the address field.', 'hw-delivery-calculator' ),
+			),
+			'font_size'      => array(
+				'group'   => 'font',
+				'label'   => __( 'Text size', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-font-size',
+				'target'  => '.hwdc',
+				'prop'    => 'font-size',
+				'default' => __( 'Theme size', 'hw-delivery-calculator' ),
+				'help'    => __( 'e.g. 17px or 1.05rem. The address field never goes below 16px so iPhones do not zoom in.', 'hw-delivery-calculator' ),
+			),
+			'heading_font'   => array(
+				'group'   => 'font',
+				'label'   => __( 'Heading font', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-heading-font',
+				'target'  => '.hwdc .hwdc__heading',
+				'prop'    => 'font-family',
+				'default' => __( 'Theme heading font', 'hw-delivery-calculator' ),
+			),
+			'heading_size'   => array(
+				'group'   => 'font',
+				'label'   => __( 'Heading size', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-heading-size',
+				'target'  => '.hwdc .hwdc__heading',
+				'prop'    => 'font-size',
+				'default' => __( 'Theme heading size', 'hw-delivery-calculator' ),
+			),
+			'heading_weight' => array(
+				'group'   => 'font',
+				'label'   => __( 'Heading weight', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-heading-weight',
+				'target'  => '.hwdc .hwdc__heading',
+				'prop'    => 'font-weight',
+				'default' => __( 'Theme heading weight', 'hw-delivery-calculator' ),
+				'help'    => __( 'e.g. 400 (regular), 600 (semi-bold) or 700 (bold).', 'hw-delivery-calculator' ),
+			),
+			'text_color'     => array(
+				'group'   => 'color',
+				'label'   => __( 'Text', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-text',
+				'default' => __( 'Theme text color', 'hw-delivery-calculator' ),
+			),
+			'heading_color'  => array(
+				'group'   => 'color',
+				'label'   => __( 'Heading', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-heading-color',
+				'target'  => '.hwdc .hwdc__heading',
+				'prop'    => 'color',
+				'default' => __( 'Theme heading color', 'hw-delivery-calculator' ),
+			),
+			'muted_color'    => array(
+				'group'   => 'color',
+				'label'   => __( 'Secondary text', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-muted',
+				'default' => '#5f6368',
+				'help'    => __( 'The note under the result, the town line in suggestions, and "Calculating…".', 'hw-delivery-calculator' ),
+			),
+			'accent_color'   => array(
+				'group'   => 'color',
+				'label'   => __( 'Accent', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-accent',
+				'default' => '#1d6f42',
+				'help'    => __( 'Focus ring, the result box\'s left border, the spinner and the highlighted suggestion marker.', 'hw-delivery-calculator' ),
+			),
+			'field_text'     => array(
+				'group'   => 'color',
+				'label'   => __( 'Field text', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-field-text',
+				'default' => __( 'Theme text color', 'hw-delivery-calculator' ),
+				'help'    => __( 'Text typed in the address field and the suggestion list.', 'hw-delivery-calculator' ),
+			),
+			'field_bg'       => array(
+				'group'   => 'color',
+				'label'   => __( 'Field background', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-bg',
+				'default' => '#ffffff',
+				'help'    => __( 'The address field and the suggestion list.', 'hw-delivery-calculator' ),
+			),
+			'border_color'   => array(
+				'group'   => 'color',
+				'label'   => __( 'Field border', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-border',
+				'default' => '#8c8f94',
+			),
+			'result_bg'      => array(
+				'group'   => 'color',
+				'label'   => __( 'Result background', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-hover',
+				'default' => '#f1f5f2',
+				'help'    => __( 'The result box, and the highlighted suggestion.', 'hw-delivery-calculator' ),
+			),
+			'warn_color'     => array(
+				'group'   => 'color',
+				'label'   => __( 'Warning', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-warn',
+				'default' => '#8a5a00',
+				'help'    => __( 'Over-the-limit box border and "choose your address" prompts.', 'hw-delivery-calculator' ),
+			),
+			'error_color'    => array(
+				'group'   => 'color',
+				'label'   => __( 'Error', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-error',
+				'default' => '#b32d2e',
+			),
 		);
+	}
+
+	/**
+	 * A CSS value, or false if it is unsafe to print inside a <style> tag. Anything
+	 * goes apart from characters that could end the declaration or the tag. A bare
+	 * --name becomes var(--name).
+	 */
+	protected static function clean_css_value( $v ) {
+		$v = trim( preg_replace( '/\s+/', ' ', (string) $v ) );
+		if ( preg_match( '/^--[A-Za-z0-9_-]+$/', $v ) ) {
+			$v = 'var(' . $v . ')';
+		}
+		if ( '' === $v ) {
+			return '';
+		}
+		if ( strlen( $v ) > 200 || ! preg_match( '/^[A-Za-z0-9#%(),.\s\'"\/+*_-]+$/', $v ) || substr_count( $v, '"' ) % 2 || substr_count( $v, "'" ) % 2 ) {
+			return false;
+		}
+		$depth = 0;
+		foreach ( str_split( $v ) as $c ) {
+			$depth += ( '(' === $c ) - ( ')' === $c );
+			if ( $depth < 0 ) {
+				return false;
+			}
+		}
+		return 0 === $depth ? $v : false;
+	}
+
+	/** The Styles settings as CSS, or '' when none are set. */
+	public static function style_css( $s ) {
+		$vars  = '';
+		$rules = array();
+		foreach ( self::style_fields() as $key => $f ) {
+			if ( empty( $s[ $key ] ) ) {
+				continue;
+			}
+			$vars .= $f['var'] . ':' . $s[ $key ] . ';';
+			if ( ! empty( $f['target'] ) ) {
+				$rules[ $f['target'] ] = ( isset( $rules[ $f['target'] ] ) ? $rules[ $f['target'] ] : '' ) . $f['prop'] . ':var(' . $f['var'] . ');';
+			}
+		}
+		if ( '' === $vars ) {
+			return '';
+		}
+		$css = '.hwdc{' . $vars . '}';
+		foreach ( $rules as $selector => $declarations ) {
+			$css .= $selector . '{' . $declarations . '}';
+		}
+		return $css;
 	}
 
 	public static function settings() {
@@ -146,6 +316,27 @@ class HW_Delivery_Calculator {
 			$out[ $field ] = isset( $in[ $field ] ) ? wp_kses_post( trim( $in[ $field ] ) ) : $d[ $field ];
 		}
 
+		$rejected = array();
+		foreach ( self::style_fields() as $field => $f ) {
+			$v = self::clean_css_value( isset( $in[ $field ] ) ? $in[ $field ] : '' );
+			if ( false === $v ) {
+				$v          = $old[ $field ];
+				$rejected[] = $f['label'];
+			}
+			$out[ $field ] = $v;
+		}
+		if ( $rejected ) {
+			add_settings_error(
+				self::OPTION,
+				'styles',
+				sprintf(
+					/* translators: %s: list of style field names */
+					__( 'Styles: %s kept the previous value. Use a plain CSS value such as #1d6f42, 1.1rem or var(--primary); semicolons, braces and angle brackets are not allowed.', 'hw-delivery-calculator' ),
+					implode( ', ', $rejected )
+				)
+			);
+		}
+
 		return $out;
 	}
 
@@ -191,6 +382,12 @@ class HW_Delivery_Calculator {
 				'failed'   => __( 'Lookup failed: %s', 'hw-delivery-calculator' ),
 				'keyError' => __( 'Google rejected the API key. Check that Places API (New) is enabled and this site is in the key\'s website restrictions.', 'hw-delivery-calculator' ),
 				'reload'   => __( 'The API key changed. Reload this page, then look up again.', 'hw-delivery-calculator' ),
+				'styles'   => array_map(
+					function ( $f ) {
+						return array_intersect_key( $f, array_flip( array( 'var', 'target', 'prop' ) ) );
+					},
+					self::style_fields()
+				),
 			)
 		);
 		// The preview at the bottom of the page uses the front-end script.
@@ -304,12 +501,36 @@ class HW_Delivery_Calculator {
 					?>
 				</table>
 
+				<h2><?php esc_html_e( 'Styles', 'hw-delivery-calculator' ); ?></h2>
+				<p><?php esc_html_e( 'Leave a field empty to keep the default shown in it. Any CSS value works: #1d6f42, rgb(29 111 66), 1.1rem, "Open Sans", sans-serif, or one of your theme\'s variables such as var(--primary). Typing --primary on its own is enough.', 'hw-delivery-calculator' ); ?></p>
+				<p class="description"><?php esc_html_e( 'This page does not load your theme, so its variables are not defined here and the preview falls back to the browser default for them. Add a fallback to see a color in the preview: var(--primary, #1d6f42).', 'hw-delivery-calculator' ); ?></p>
+				<h3><?php esc_html_e( 'Fonts', 'hw-delivery-calculator' ); ?></h3>
+				<table class="form-table" role="presentation">
+					<?php
+					foreach ( self::style_fields() as $field => $f ) {
+						if ( 'font' === $f['group'] ) {
+							self::style_row( $field, $f, $s );
+						}
+					}
+					?>
+				</table>
+				<h3><?php esc_html_e( 'Colors', 'hw-delivery-calculator' ); ?></h3>
+				<table class="form-table" role="presentation">
+					<?php
+					foreach ( self::style_fields() as $field => $f ) {
+						if ( 'color' === $f['group'] ) {
+							self::style_row( $field, $f, $s );
+						}
+					}
+					?>
+				</table>
+
 				<?php submit_button(); ?>
 			</form>
 
 			<h2><?php esc_html_e( 'Preview', 'hw-delivery-calculator' ); ?></h2>
 			<?php if ( self::is_configured( $s ) ) : ?>
-				<p class="description"><?php esc_html_e( 'Uses the saved settings and makes real Google requests. Your theme\'s fonts and colors will apply on the site.', 'hw-delivery-calculator' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Uses the saved settings and makes real Google requests. Style changes show here as you type; click Save Changes to keep them. Where a style is left empty, your theme\'s fonts and colors apply on the site.', 'hw-delivery-calculator' ); ?></p>
 				<div style="max-width:40rem;background:#fff;padding:16px 20px;border:1px solid #dcdcde;margin-top:12px">
 					<?php echo self::shortcode( array() ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in render. ?>
 				</div>
@@ -335,8 +556,25 @@ class HW_Delivery_Calculator {
 		echo '</td></tr>';
 	}
 
+	protected static function style_row( $field, $f, $s ) {
+		$id = 'hwdc-' . $field;
+		echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $f['label'] ) . '</label></th><td>';
+		echo '<input type="text" class="regular-text code" id="' . esc_attr( $id ) . '" name="' . esc_attr( self::OPTION . '[' . $field . ']' ) . '" value="' . esc_attr( $s[ $field ] ) . '" placeholder="' . esc_attr( $f['default'] ) . '" autocomplete="off" spellcheck="false">';
+		if ( 'color' === $f['group'] ) {
+			// Not submitted (no name); admin.js copies the picked color into the text field.
+			echo ' <input type="color" class="hwdc-color" data-for="' . esc_attr( $id ) . '" aria-label="' . esc_attr(
+				/* translators: %s: style field name, e.g. Accent */
+				sprintf( __( 'Pick the %s color', 'hw-delivery-calculator' ), $f['label'] )
+			) . '" style="vertical-align:middle;width:40px;height:30px;padding:1px">';
+		}
+		if ( ! empty( $f['help'] ) ) {
+			echo '<p class="description">' . esc_html( $f['help'] ) . '</p>';
+		}
+		echo '</td></tr>';
+	}
+
 	/* ------------------------------------------------------------------ */
-	/* Front end                                                           */
+	/* Front end                                                         */
 	/* ------------------------------------------------------------------ */
 
 	public static function register_assets() {
@@ -429,6 +667,11 @@ class HW_Delivery_Calculator {
 			if ( $css ) {
 				echo '<style id="hw-delivery-calculator-css">' . wp_strip_all_tags( $css ) . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput
 			}
+		}
+		// The Styles settings print even with the inline CSS turned off: they are set on purpose.
+		$styles = 1 === self::$instances ? self::style_css( $s ) : '';
+		if ( '' !== $styles ) {
+			echo '<style id="hw-delivery-calculator-styles">' . $styles . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput -- values checked by clean_css_value().
 		}
 		?>
 		<div class="hwdc" id="<?php echo esc_attr( $id ); ?>" data-hwdc="<?php echo esc_attr( wp_json_encode( $config ) ); ?>">

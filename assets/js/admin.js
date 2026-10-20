@@ -107,3 +107,74 @@
 		});
 	});
 })();
+
+/*
+ * Styles section: a color picker beside each color field, and the preview
+ * restyles as you type. Builds the same CSS as HW_Delivery_Calculator::style_css().
+ */
+(function () {
+	'use strict';
+
+	var fields = (window.hwdcAdmin || {}).styles || {};
+	var safe = /^[A-Za-z0-9#%(),.\s'"\/+*_-]+$/;
+	var hex = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
+	var tag = document.getElementById('hw-delivery-calculator-styles');
+
+	function value(key) {
+		var input = document.getElementById('hwdc-' + key);
+		var v = input ? input.value.trim().replace(/\s+/g, ' ') : '';
+		return /^--[\w-]+$/.test(v) ? 'var(' + v + ')' : v;
+	}
+
+	function render() {
+		var vars = '';
+		var rules = {};
+		Object.keys(fields).forEach(function (key) {
+			var f = fields[key];
+			var v = value(key);
+			if (!v || !safe.test(v)) {
+				return;
+			}
+			vars += f['var'] + ':' + v + ';';
+			if (f.target) {
+				rules[f.target] = (rules[f.target] || '') + f.prop + ':var(' + f['var'] + ');';
+			}
+		});
+		var css = vars ? '.hwdc{' + vars + '}' : '';
+		Object.keys(rules).forEach(function (selector) {
+			css += selector + '{' + rules[selector] + '}';
+		});
+		if (!tag) {
+			tag = document.createElement('style');
+			tag.id = 'hw-delivery-calculator-styles';
+			document.head.appendChild(tag);
+		}
+		tag.textContent = css;
+	}
+
+	Object.keys(fields).forEach(function (key) {
+		var input = document.getElementById('hwdc-' + key);
+		if (input) {
+			input.addEventListener('input', render);
+		}
+	});
+
+	Array.prototype.forEach.call(document.querySelectorAll('.hwdc-color'), function (picker) {
+		var input = document.getElementById(picker.getAttribute('data-for'));
+		if (!input) {
+			return;
+		}
+		// The picker only knows #rrggbb; it follows the field when the field holds a hex
+		// color, otherwise it shows the default.
+		function sync() {
+			var m = hex.exec(input.value.trim()) || hex.exec(input.placeholder);
+			picker.value = m ? (m[1].length === 3 ? '#' + m[1].replace(/./g, '$&$&') : m[0]).toLowerCase() : '#000000';
+		}
+		sync();
+		input.addEventListener('input', sync);
+		picker.addEventListener('input', function () {
+			input.value = picker.value;
+			render();
+		});
+	});
+})();

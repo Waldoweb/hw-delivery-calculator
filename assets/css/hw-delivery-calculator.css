@@ -1,4 +1,4 @@
-/* HW Delivery Calculator. Printed inline once per page. Override the variables in the theme to restyle. */
+/* HW Delivery Calculator. Printed inline once per page. Restyle with the Styles settings, or override the variables in the theme. */
 .hwdc {
 	--hwdc-accent: #1d6f42;
 	--hwdc-text: inherit;
@@ -30,7 +30,7 @@
 	font: inherit;
 	font-size: max(16px, 1em); /* 16px+ stops iOS zooming in on focus */
 	line-height: 1.3;
-	color: inherit;
+	color: var(--hwdc-field-text, inherit);
 	background: var(--hwdc-bg);
 	border: 1px solid var(--hwdc-border);
 	border-radius: var(--hwdc-radius);
@@ -83,7 +83,7 @@
 	top: calc(100% + 4px);
 	left: 0;
 	right: 0;
-	color: #1d2327;
+	color: var(--hwdc-field-text, #1d2327);
 	background: var(--hwdc-bg);
 	border: 1px solid var(--hwdc-border);
 	border-radius: var(--hwdc-radius);

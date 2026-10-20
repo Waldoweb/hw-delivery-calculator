@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -173,14 +173,28 @@ header, default 96px).
 
 == Styling ==
 
-The box inherits the theme's font and text color. Override these variables on
-.hwdc in the theme or builder CSS:
+The box inherits the theme's font and text color. The Styles section of the
+settings page sets the fonts (family, text size, heading font, size and
+weight) and colors. Each field takes any CSS value, including the theme's or
+builder's variables: var(--primary), or just --primary. Empty fields keep the
+default. The settings page does not load the theme, so give theme variables a
+fallback, var(--primary, #1d6f42), to see them in the preview there.
+
+Each Styles field sets one of these variables on .hwdc, which theme or
+builder CSS can also override (settings that are filled in win, since they
+print after the theme's stylesheet):
 
     --hwdc-accent (focus ring and result border, default #1d6f42)
-    --hwdc-border, --hwdc-bg, --hwdc-hover, --hwdc-muted, --hwdc-radius,
-    --hwdc-error, --hwdc-warn, --hwdc-scroll-offset
+    --hwdc-text, --hwdc-muted, --hwdc-field-text, --hwdc-bg, --hwdc-border,
+    --hwdc-hover (result box and highlighted suggestion), --hwdc-warn,
+    --hwdc-error, --hwdc-font, --hwdc-font-size, --hwdc-heading-font,
+    --hwdc-heading-size, --hwdc-heading-weight, --hwdc-heading-color
+    Not in the settings: --hwdc-radius, --hwdc-scroll-offset
 
-To drop the built-in CSS entirely:
+The font and heading variables only apply when the matching setting is filled
+in; setting them from theme CSS alone does nothing.
+
+To drop the built-in CSS entirely (Styles settings still print):
     add_filter( 'hw_delivery_calculator_inline_css', '__return_false' );
 
 The "Google Maps" line under the suggestions is Google's required attribution
@@ -213,6 +227,13 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.1.0 =
+* New Styles section in the settings: font, text size, heading font, size
+  and weight, and ten colors. Fields take any CSS value, including theme
+  variables (var(--primary), or just --primary). Color fields have a picker,
+  and the preview restyles as you type.
+* The address field text color can now be changed (--hwdc-field-text).
 
 = 1.0.1 =
 * The kennel address field now says it is never shown to customers; the
