@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -227,6 +227,9 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.1.8 =
+* The address field's focus ring is now 2px wide (was 3px).
 
 = 1.1.7 =
 * The focus ring sets outline-offset: 0px explicitly, so theme styles
