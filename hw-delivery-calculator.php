@@ -3,7 +3,7 @@
  * Plugin Name:       HW Delivery Calculator
  * Plugin URI:        https://github.com/Waldoweb/hw-delivery-calculator
  * Description:       Delivery cost estimate for product pages. The visitor picks their street address (Google Places autocomplete) and sees the driving distance from the kennel and an estimated price. Information only: no cart, checkout or order changes, and nothing is sent to or saved on the site.
- * Version:           1.1.3
+ * Version:           1.1.4
  * Author:            Hostetler Web
  * Author URI:        https://hostetlerweb.com
  * Update URI:        https://github.com/Waldoweb/hw-delivery-calculator
@@ -41,7 +41,7 @@ if ( is_readable( __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker
 
 class HW_Delivery_Calculator {
 
-	const VERSION = '1.1.3';
+	const VERSION = '1.1.4';
 	const OPTION  = 'hw_delivery_settings';
 	const HANDLE  = 'hw-delivery-calculator';
 	const PAGE    = 'hw-delivery-calculator';
@@ -140,12 +140,6 @@ class HW_Delivery_Calculator {
 				'default' => __( 'Theme size', 'hw-delivery-calculator' ),
 				'help'    => __( 'e.g. 17px or 1.05rem. The address field never goes below 16px so iPhones do not zoom in.', 'hw-delivery-calculator' ),
 			),
-			'text_color'     => array(
-				'group'   => 'color',
-				'label'   => __( 'Text', 'hw-delivery-calculator' ),
-				'var'     => '--hwdc-text',
-				'default' => __( 'Theme text color', 'hw-delivery-calculator' ),
-			),
 			'heading_color'  => array(
 				'group'   => 'color',
 				'label'   => __( 'Heading', 'hw-delivery-calculator' ),
@@ -153,6 +147,12 @@ class HW_Delivery_Calculator {
 				'target'  => '.hwdc .hwdc__heading',
 				'prop'    => 'color',
 				'default' => __( 'Theme heading color', 'hw-delivery-calculator' ),
+			),
+			'text_color'     => array(
+				'group'   => 'color',
+				'label'   => __( 'Text', 'hw-delivery-calculator' ),
+				'var'     => '--hwdc-text',
+				'default' => __( 'Theme text color', 'hw-delivery-calculator' ),
 			),
 			'muted_color'    => array(
 				'group'   => 'color',
