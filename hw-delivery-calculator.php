@@ -3,7 +3,7 @@
  * Plugin Name:       HW Delivery Calculator
  * Plugin URI:        https://github.com/Waldoweb/hw-delivery-calculator
  * Description:       Delivery cost estimate for product pages. The visitor picks their street address (Google Places autocomplete) and sees the driving distance from the kennel and an estimated price. Information only: no cart, checkout or order changes, and nothing is sent to or saved on the site.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Author:            Hostetler Web
  * Author URI:        https://hostetlerweb.com
  * Update URI:        https://github.com/Waldoweb/hw-delivery-calculator
@@ -41,7 +41,7 @@ if ( is_readable( __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker
 
 class HW_Delivery_Calculator {
 
-	const VERSION = '1.1.1';
+	const VERSION = '1.1.2';
 	const OPTION  = 'hw_delivery_settings';
 	const HANDLE  = 'hw-delivery-calculator';
 	const PAGE    = 'hw-delivery-calculator';
@@ -505,7 +505,7 @@ class HW_Delivery_Calculator {
 				<p><?php esc_html_e( 'Leave a field empty to keep the default shown in it. Any CSS value works: #1d6f42, rgb(29 111 66), 1.1rem, "Open Sans", sans-serif, or one of your theme\'s variables such as var(--primary). Typing --primary on its own is enough.', 'hw-delivery-calculator' ); ?></p>
 				<p class="description"><?php esc_html_e( 'This page does not load your theme, so its variables are not defined here and the preview falls back to the browser default for them. Add a fallback to see a color in the preview: var(--primary, #1d6f42).', 'hw-delivery-calculator' ); ?></p>
 				<h3><?php esc_html_e( 'Fonts', 'hw-delivery-calculator' ); ?></h3>
-				<div class="hwdc-style-fields">
+				<table class="form-table" role="presentation">
 					<?php
 					foreach ( self::style_fields() as $field => $f ) {
 						if ( 'font' === $f['group'] ) {
@@ -513,9 +513,9 @@ class HW_Delivery_Calculator {
 						}
 					}
 					?>
-				</div>
+				</table>
 				<h3><?php esc_html_e( 'Colors', 'hw-delivery-calculator' ); ?></h3>
-				<div class="hwdc-style-fields">
+				<table class="form-table" role="presentation">
 					<?php
 					foreach ( self::style_fields() as $field => $f ) {
 						if ( 'color' === $f['group'] ) {
@@ -523,7 +523,7 @@ class HW_Delivery_Calculator {
 						}
 					}
 					?>
-				</div>
+				</table>
 
 				<?php submit_button(); ?>
 			</form>
@@ -558,7 +558,7 @@ class HW_Delivery_Calculator {
 
 	protected static function style_row( $field, $f, $s ) {
 		$id = 'hwdc-' . $field;
-		echo '<div style="margin:0 0 1.25em"><label for="' . esc_attr( $id ) . '" style="display:block;margin:0 0 6px;font-weight:600">' . esc_html( $f['label'] ) . '</label>';
+		echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $f['label'] ) . '</label></th><td>';
 		echo '<input type="text" class="regular-text code" id="' . esc_attr( $id ) . '" name="' . esc_attr( self::OPTION . '[' . $field . ']' ) . '" value="' . esc_attr( $s[ $field ] ) . '" placeholder="' . esc_attr( $f['default'] ) . '" autocomplete="off" spellcheck="false">';
 		if ( 'color' === $f['group'] ) {
 			// Not submitted (no name); admin.js copies the picked color into the text field.
@@ -570,7 +570,7 @@ class HW_Delivery_Calculator {
 		if ( ! empty( $f['help'] ) ) {
 			echo '<p class="description">' . esc_html( $f['help'] ) . '</p>';
 		}
-		echo '</div>';
+		echo '</td></tr>';
 	}
 
 	/* ------------------------------------------------------------------ */
