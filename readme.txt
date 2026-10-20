@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -227,6 +227,12 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.1.5 =
+* Fix: on WooCommerce pages, theme input styles (e.g. Oxygen's
+  .woocommerce input[type="text"]) overrode the address field: its border
+  ignored the Field border setting, the focus ring was missing and the text
+  was 14px, which makes iPhones zoom in. The field's own styles now win.
 
 = 1.1.4 =
 * Styles settings: the Text color now comes after the Heading color.

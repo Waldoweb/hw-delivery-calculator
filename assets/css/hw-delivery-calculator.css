@@ -21,7 +21,8 @@
 .hwdc__intro { margin: 0 0 1em; }
 .hwdc__label { display: block; margin: 0 0 .35em; font-weight: 600; }
 .hwdc__field { position: relative; }
-.hwdc__input {
+/* Three classes so theme and WooCommerce input rules (e.g. Oxygen's .woocommerce input[type="text"]) don't win. */
+.hwdc .hwdc__field .hwdc__input {
 	display: block;
 	width: 100%;
 	min-height: 48px;
@@ -39,7 +40,7 @@
 	-webkit-appearance: none;
 	appearance: none;
 }
-.hwdc__input:focus { outline: 3px solid var(--hwdc-accent); outline-offset: 1px; border-color: var(--hwdc-accent); }
+.hwdc .hwdc__field .hwdc__input:focus { outline: 3px solid var(--hwdc-accent); outline-offset: 1px; border-color: var(--hwdc-accent); }
 .hwdc__clear {
 	position: absolute;
 	top: 0;
