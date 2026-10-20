@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -102,6 +102,11 @@ WooCommerce is not active).
   the spot in Google Maps and click the numbers at the top to copy them.
   Distances are measured from the saved coordinates only; the WooCommerce
   store address is not used.
+  The kennel's street address is never printed on the page; customers only
+  see the town below. The coordinates do travel to the browser (the distance
+  is worked out there, with Google), so they are in the page source for
+  anyone who opens developer tools. Keeping them fully hidden would need the
+  site's server to do the route lookup instead.
 - Town shown to customers: fills {kennel}, e.g. "Hersey, MI".
 - Rate per mile: default 2.00, applied to one-way miles.
 - Maximum distance: default 600 miles. 0 = no limit.
@@ -208,6 +213,11 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.0.1 =
+* The kennel address field now says it is never shown to customers; the
+  readme explains what reaches the browser.
+* Example coordinates in the settings error message are now generic.
 
 = 1.0.0 =
 * First release: [hw_delivery_calculator] shortcode (alias

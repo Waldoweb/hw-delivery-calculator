@@ -3,7 +3,7 @@
  * Plugin Name:       HW Delivery Calculator
  * Plugin URI:        https://github.com/Waldoweb/hw-delivery-calculator
  * Description:       Delivery cost estimate for product pages. The visitor picks their street address (Google Places autocomplete) and sees the driving distance from the kennel and an estimated price. Information only: no cart, checkout or order changes, and nothing is sent to or saved on the site.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Hostetler Web
  * Author URI:        https://hostetlerweb.com
  * Update URI:        https://github.com/Waldoweb/hw-delivery-calculator
@@ -41,7 +41,7 @@ if ( is_readable( __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker
 
 class HW_Delivery_Calculator {
 
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 	const OPTION  = 'hw_delivery_settings';
 	const HANDLE  = 'hw-delivery-calculator';
 	const PAGE    = 'hw-delivery-calculator';
@@ -128,7 +128,7 @@ class HW_Delivery_Calculator {
 			} else {
 				// Keep the working value rather than switching the calculator off.
 				$out[ $field ] = $old[ $field ];
-				add_settings_error( self::OPTION, $field, __( 'Kennel coordinates must be decimal degrees, e.g. 43.829129 and -85.422159. The previous value was kept.', 'hw-delivery-calculator' ) );
+				add_settings_error( self::OPTION, $field, __( 'Kennel coordinates must be decimal degrees, e.g. 44.123456 and -85.654321. The previous value was kept.', 'hw-delivery-calculator' ) );
 			}
 		}
 
@@ -249,7 +249,7 @@ class HW_Delivery_Calculator {
 								<button type="button" class="button" id="hwdc-lookup"><?php esc_html_e( 'Look up coordinates', 'hw-delivery-calculator' ); ?></button>
 								<span id="hwdc-lookup-status" role="status" style="margin-left:8px"></span>
 							</p>
-							<p class="description"><?php esc_html_e( 'For your records and the lookup button. Distances are measured from the coordinates below, not from this text or the WooCommerce store address.', 'hw-delivery-calculator' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Never shown to customers; only the town below appears on the page. Used by the lookup button. Distances are measured from the coordinates below, not from this text or the WooCommerce store address.', 'hw-delivery-calculator' ); ?></p>
 						</td>
 					</tr>
 					<tr>
