@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -227,6 +227,9 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.1.1 =
+* Styles settings: each field's name now sits above it instead of beside it.
 
 = 1.1.0 =
 * New Styles section in the settings: font, text size, heading font, size
