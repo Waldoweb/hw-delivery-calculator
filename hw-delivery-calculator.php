@@ -3,7 +3,7 @@
  * Plugin Name:       HW Delivery Calculator
  * Plugin URI:        https://github.com/Waldoweb/hw-delivery-calculator
  * Description:       Delivery cost estimate for product pages. The visitor picks their street address (Google Places autocomplete) and sees the driving distance from the kennel and an estimated price. Information only: no cart, checkout or order changes, and nothing is sent to or saved on the site.
- * Version:           1.1.6
+ * Version:           1.1.7
  * Author:            Hostetler Web
  * Author URI:        https://hostetlerweb.com
  * Update URI:        https://github.com/Waldoweb/hw-delivery-calculator
@@ -41,7 +41,7 @@ if ( is_readable( __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker
 
 class HW_Delivery_Calculator {
 
-	const VERSION = '1.1.6';
+	const VERSION = '1.1.7';
 	const OPTION  = 'hw_delivery_settings';
 	const HANDLE  = 'hw-delivery-calculator';
 	const PAGE    = 'hw-delivery-calculator';

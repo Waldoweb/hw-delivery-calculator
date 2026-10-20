@@ -40,7 +40,7 @@
 	-webkit-appearance: none;
 	appearance: none;
 }
-.hwdc .hwdc__field .hwdc__input:focus { outline: 3px solid var(--hwdc-accent); border-color: var(--hwdc-accent); }
+.hwdc .hwdc__field .hwdc__input:focus { outline: 3px solid var(--hwdc-accent); outline-offset: 0px; border-color: var(--hwdc-accent); }
 .hwdc__clear {
 	position: absolute;
 	top: 0;
