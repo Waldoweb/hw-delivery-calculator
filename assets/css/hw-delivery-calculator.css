@@ -1,0 +1,142 @@
+/* HW Delivery Calculator. Printed inline once per page. Override the variables in the theme to restyle. */
+.hwdc {
+	--hwdc-accent: #1d6f42;
+	--hwdc-text: inherit;
+	--hwdc-muted: #5f6368;
+	--hwdc-border: #8c8f94;
+	--hwdc-bg: #fff;
+	--hwdc-hover: #f1f5f2;
+	--hwdc-radius: 8px;
+	--hwdc-error: #b32d2e;
+	--hwdc-warn: #8a5a00;
+	--hwdc-scroll-offset: 96px;
+	position: relative;
+	max-width: 40rem;
+	color: var(--hwdc-text);
+	box-sizing: border-box;
+}
+.hwdc *, .hwdc *::before, .hwdc *::after { box-sizing: inherit; }
+.hwdc [hidden] { display: none !important; }
+.hwdc__heading { margin: 0 0 .4em; }
+.hwdc__intro { margin: 0 0 1em; }
+.hwdc__label { display: block; margin: 0 0 .35em; font-weight: 600; }
+.hwdc__field { position: relative; }
+.hwdc__input {
+	display: block;
+	width: 100%;
+	min-height: 48px;
+	margin: 0;
+	padding: 10px 48px 10px 14px;
+	font: inherit;
+	font-size: max(16px, 1em); /* 16px+ stops iOS zooming in on focus */
+	line-height: 1.3;
+	color: inherit;
+	background: var(--hwdc-bg);
+	border: 1px solid var(--hwdc-border);
+	border-radius: var(--hwdc-radius);
+	box-shadow: none;
+	scroll-margin-top: var(--hwdc-scroll-offset);
+	-webkit-appearance: none;
+	appearance: none;
+}
+.hwdc__input:focus { outline: 3px solid var(--hwdc-accent); outline-offset: 1px; border-color: var(--hwdc-accent); }
+.hwdc__clear {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 48px;
+	height: 48px;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--hwdc-muted);
+	background: transparent;
+	border: 0;
+	border-radius: var(--hwdc-radius);
+	cursor: pointer;
+}
+.hwdc__clear:hover { color: inherit; background: transparent; }
+.hwdc__clear:focus-visible { outline: 3px solid var(--hwdc-accent); outline-offset: -3px; }
+.hwdc__spinner {
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--hwdc-border);
+	border-top-color: var(--hwdc-accent);
+	border-radius: 50%;
+	opacity: 0;
+	pointer-events: none;
+	animation: hwdc-spin .8s linear infinite;
+}
+.hwdc.is-busy .hwdc__spinner { opacity: 1; }
+.hwdc.is-busy .hwdc__clear { visibility: hidden; }
+@keyframes hwdc-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .hwdc__spinner { animation-duration: 2.4s; } }
+
+.hwdc__popup {
+	position: absolute;
+	z-index: 1000;
+	top: calc(100% + 4px);
+	left: 0;
+	right: 0;
+	color: #1d2327;
+	background: var(--hwdc-bg);
+	border: 1px solid var(--hwdc-border);
+	border-radius: var(--hwdc-radius);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, .15);
+	overflow: hidden;
+}
+.hwdc__list { list-style: none; margin: 0; padding: 4px 0; max-height: 21rem; overflow-y: auto; }
+.hwdc__option {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 48px;
+	margin: 0;
+	padding: 8px 14px;
+	line-height: 1.3;
+	cursor: pointer;
+}
+.hwdc__option:hover, .hwdc__option[aria-selected="true"] { background: var(--hwdc-hover); }
+.hwdc__option[aria-selected="true"] { box-shadow: inset 4px 0 0 var(--hwdc-accent); }
+.hwdc__main { font-weight: 600; }
+.hwdc__sub { font-size: .875em; color: var(--hwdc-muted); }
+.hwdc__attribution {
+	padding: 4px 14px 6px;
+	font: 12px/1.4 Roboto, Arial, sans-serif;
+	color: #5f6368;
+	text-align: right;
+	border-top: 1px solid #e8eaed;
+}
+
+.hwdc__message, .hwdc__result, .hwdc__over { margin: .75em 0 0; }
+.hwdc__message { padding: .6em .85em; border-left: 4px solid var(--hwdc-border); background: rgba(0, 0, 0, .03); }
+.hwdc__message[data-type="loading"] { color: var(--hwdc-muted); }
+.hwdc__message[data-type="warn"] { border-left-color: var(--hwdc-warn); color: var(--hwdc-warn); }
+.hwdc__message[data-type="error"] { border-left-color: var(--hwdc-error); color: var(--hwdc-error); }
+.hwdc__result, .hwdc__over {
+	padding: .85em 1em;
+	border-left: 4px solid var(--hwdc-accent);
+	border-radius: 0 var(--hwdc-radius) var(--hwdc-radius) 0;
+	background: var(--hwdc-hover);
+}
+.hwdc__over { border-left-color: var(--hwdc-warn); }
+.hwdc__result p, .hwdc__over p { margin: 0; }
+.hwdc__estimate { font-size: 1.05em; }
+.hwdc__note { margin-top: .5em !important; font-size: .9em; color: var(--hwdc-muted); }
+.hwdc-v[data-v="price"] { font-weight: 700; }
+.hwdc__sr {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
