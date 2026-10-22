@@ -279,6 +279,7 @@
 				var sub = document.createElement('span');
 				sub.className = 'hwdc__sub';
 				sub.textContent = p.secondaryText.toString().replace(/, USA$/, '');
+				li.appendChild(document.createTextNode(' '));
 				li.appendChild(sub);
 			}
 			self.list.appendChild(li);

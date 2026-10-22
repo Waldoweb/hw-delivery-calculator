@@ -2,7 +2,7 @@
 Contributors: Hostetler Web
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.1.8
+Stable tag: 1.1.9
 License: GPL-2.0-or-later
 
 Delivery cost estimate for WooCommerce product pages. The customer picks their
@@ -227,6 +227,11 @@ No suggestions at all for valid addresses: Places API (New) is missing (the
   allowed on the key.
 
 == Changelog ==
+
+= 1.1.9 =
+* Address suggestions show the street and the city/state on one line
+  with a gap between them (they ran together on some themes). Long
+  addresses wrap the city/state to a second line.
 
 = 1.1.8 =
 * The address field's focus ring is now 2px wide (was 3px).
